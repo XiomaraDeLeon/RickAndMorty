@@ -2,12 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import BotonPersonajes from './components/boton';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PersonajesList from "./components/listPersonajes"
+import PersonajesList from "./components/listPersonajes";
+import { Provider } from './context/index'
 
 ReactDOM.render(
   <React.StrictMode>
-    <BotonPersonajes />
-    <PersonajesList />
+    <Provider>
+      <BotonPersonajes />
+      <PersonajesList />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
