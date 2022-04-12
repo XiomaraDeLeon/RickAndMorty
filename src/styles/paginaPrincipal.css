@@ -2,5 +2,15 @@
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    padding: 10px 30px;
+    justify-content: center;
+    padding-top: 20px;
+}
+
+.testo{
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.contenedorBotones{
+    display: flex;
+    justify-content: space-around;
 }

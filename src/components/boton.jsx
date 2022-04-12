@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Container, Button, Row, Col} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import { newContext } from '../context';
+import '../styles/paginaPrincipal.css'
+import { getCLS } from 'web-vitals';
 
 function BotonPersonajes() {
   const [disable, setDisable] = useState(false)
@@ -14,71 +16,57 @@ function BotonPersonajes() {
       } = React.useContext(newContext)
 
       useEffect(() => {
-        console.log(personajes.info)
-        if(personajes.info?.pages == pages){
+        if(personajes.info?.pages === pages){
           setDisable(true)
         }
 
-        if(pages == 1){
+        if(pages === 1){
           setBotonAnterior(true)
         }
-
-        console.log(pages)
       }, [pages]);
 
       async function BotonSiguiente(){
-        setDisable(true)
-        setBotonAnterior(true)
-
-        if(personajes.info.next != null){
+          
+        if(personajes.info.next !== null){
+          setDisable(true)
+          setBotonAnterior(true)
           const response2 = await axios(personajes.info.next)
-          setPersonajes(response2.data)
-          setPages(pages+1)
-        }
-
+          
           setTimeout(() => {
+            setPersonajes(response2.data)
             setDisable(false)
             setBotonAnterior(false)
+            setPages(pages+1)
           },1000)
-        
+        }
       }
 
       async function BotonAnterior(){
-        console.log(pages)
-
-        if(personajes.info.prev != null){
-          setDisable(true)  
+        if(personajes.info.prev !== null){
+          setBotonAnterior(true)
+          setDisable(true)
 
           const response3 = await axios(personajes.info.prev)
-          setPersonajes(response3.data)
-          setPages(pages-1)
-
+          
           setTimeout(() => {
+            setPersonajes(response3.data)
+            setBotonAnterior(false)
             setDisable(false)
+            setPages(pages-1)
           }, 1000)
           
         }
 
-        else{
-          console.log("hola")
-        }
       }
    
   return (
-    <Container>
-      <Row>
-        <Col>
-          <Button disabled={botonAnterior} onClick={BotonAnterior} className="mt-3" variant="primary">Anterior</Button>
-        </Col>
-        <Col>
-          {/* <Button className="mt-3" variant="primary">Anterior</Button> */}
-          <h1>Rick and Morty</h1>
-        </Col>
-        <Col>
-          <Button disabled={disable} onClick={BotonSiguiente} className="mt-3" variant="primary">Siguiente</Button>
-        </Col>
-      </Row>
-    </Container>
+    <React.Fragment>
+      <div className="contenedorBotones">
+          <Button disabled={botonAnterior} onClick={BotonAnterior} className="mt-3 testo" variant="primary">Anterior</Button>
+          <h1 className="testo">Rick and Morty</h1>
+          <Button disabled={disable} onClick={BotonSiguiente} className="mt-3 testo" variant="primary">Siguiente</Button>
+      </div>
+    </React.Fragment>
   );
 }
 
